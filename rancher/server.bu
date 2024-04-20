@@ -23,7 +23,7 @@ systemd:
         ExecStartPre=-/bin/podman kill rancher
         ExecStartPre=-/bin/podman rm rancher
         ExecStartPre=/bin/podman pull rancher/rancher:latest
-        ExecStart=/bin/podman run --name rancher -p 80:80 -p 443:443 rancher/rancher:latest
+        ExecStart=/bin/podman run --name rancher -p 80:80 -p 443:443 docker.io/rancher/rancher:latest
 
         [Install]
         WantedBy=multi-user.target
