@@ -24,8 +24,8 @@ systemd:
         TimeoutStartSec=0
         ExecStartPre=-/bin/podman kill rancher
         ExecStartPre=-/bin/podman rm rancher
-        ExecStartPre=/bin/podman pull rancher/rancher:latest
-        ExecStart=/bin/podman run --name rancher --privileged -p 80:80 -p 443:443 docker.io/rancher/rancher:latest
+        ExecStartPre=/bin/podman pull docker.io/rancher/rancher:latest
+        ExecStart=/bin/podman run --name rancher --privileged --replace -p 80:80 -p 443:443 docker.io/rancher/rancher:latest
 
         [Install]
         WantedBy=multi-user.target
