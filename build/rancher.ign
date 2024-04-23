@@ -11,7 +11,7 @@
         "name": "mal",
         "passwordHash": "$6$yRi2VmRebP/SWFBJ$JVpIDJHsSgMYS.GA5A8A67A90/e4b.qYB1YFi9M.a5unESYcgTcBTstdOW6KfGZmJBSTGOGb26Tq6TEOfMkrL/",
         "sshAuthorizedKeys": [
-          "../keys/mal.pub"
+          "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAwC52TcTVsLOkqJOuwYWc1PMkSeB6tPbzx+nSkeL3BC55xze3inchZ7U6VTE+FOqg6PmuqSI00mgOMvuwxx3xwx1pyYnIhPctYpwb+zto51aHSmxaMjU5FTUxw8SrrJtWEem5tqqP7WoW5Ku65ec/TLghHWnYh/9OJmVS0K/58B5EvcAA0D/CXBdx90I80aAwsIyX+onZ0GBBXg9sNmoqA6DqGF0O+yuRIj/b77DZANaiyYlcfgSrPvy/P1NidNMUZt+5O9IrrVs15e3SUYVoANzInEmW7IaIDfXMdcKwb5vygTHtmehGrSETa8SEFGwZdH5tT01KThfuRaPf+GA8Cw== mal@frylock.lan"
         ]
       }
     ]

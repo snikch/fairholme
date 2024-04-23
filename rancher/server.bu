@@ -5,8 +5,8 @@ passwd:
   users:
     - name: mal
       password_hash: "$6$yRi2VmRebP/SWFBJ$JVpIDJHsSgMYS.GA5A8A67A90/e4b.qYB1YFi9M.a5unESYcgTcBTstdOW6KfGZmJBSTGOGb26Tq6TEOfMkrL/"
-      ssh_authorized_keys:
-        - ../keys/mal.pub
+      ssh_authorized_keys_local:
+        - keys/mal.pub
       groups:
         - sudo
 
