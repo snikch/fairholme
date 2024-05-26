@@ -1,4 +1,9 @@
 frigate:
+  persistence:
+    data:
+      enabled: true
+    media:
+      enabled: true
   config: |
     # yaml-language-server: $schema=https://frigate.home.mal.co.nz/api/config/schema.json
     birdseye:
