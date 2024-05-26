@@ -5,17 +5,24 @@
 Initialises ArgoCD.
 
 ```sh
-helm install -n argo-cd --create-namespace argo-cd .
+op run --env-file="./.env" -- \
+    helm install -n argo-cd \
+        --create-namespace \
+        --set="ghcrToken=$GHCR_TOKEN \
+        argo-cd ./init
 ```
 
 Update via.
 
 ```sh
-helm upgrade -n argo-cd --create-namespace argo-cd .
+op run --env-file="./.env" -- \
+    helm upgrade -n argo-cd --create-namespace \
+        --set="ghcrToken=$GHCR_TOKEN" \
+        argo-cd ./init
 ```
 
 Remove via.
 
 ```sh
-helm uninstall -n argo-cd argo-cd
+op run --env-file="./.env" -- helm uninstall -n argo-cd argo-cd
 ```

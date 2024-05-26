@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: frigate
+  namespace: argo-cd
+  annotations:
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: frigate
+    server: {{.Values.spec.destination.server}}
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
+  source:
+    path: k8s/apps/frigate
+    repoURL: https://github.com/snikch/fairholme.git
+    targetRevision: proxmox
