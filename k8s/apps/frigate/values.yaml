@@ -1,137 +1,138 @@
-config: |
-  # yaml-language-server: $schema=https://frigate.home.mal.co.nz/api/config/schema.json
-  birdseye:
-    enabled: True
-    mode: continuous
+frigate:
+  config: |
+    # yaml-language-server: $schema=https://frigate.home.mal.co.nz/api/config/schema.json
+    birdseye:
+      enabled: True
+      mode: continuous
 
-  database:
-    path: /config/frigate.db
+    database:
+      path: /config/frigate.db
 
-  # detectors:
-  # coral:
-  #   type: edgetpu
-  #   device: pci
+    # detectors:
+    # coral:
+    #   type: edgetpu
+    #   device: pci
 
-  mqtt:
-    enabled: False
+    mqtt:
+      enabled: False
 
-  objects:
-    # Optional: list of objects to track from labelmap.txt (default: shown below)
-    track:
-      - person
-      - bicycle
-      - car
-      - dog
-      - cat
-      - motorcycle
+    objects:
+      # Optional: list of objects to track from labelmap.txt (default: shown below)
+      track:
+        - person
+        - bicycle
+        - car
+        - dog
+        - cat
+        - motorcycle
 
-  snapshots:
-    retain:
-      # Required: Default retention days (default: shown below)
-      default: 100
-      # Optional: Per object retention days
-      # objects:
-      #   person: 15
+    snapshots:
+      retain:
+        # Required: Default retention days (default: shown below)
+        default: 100
+        # Optional: Per object retention days
+        # objects:
+        #   person: 15
 
-  go2rtc:
-    # https://docs.frigate.video/configuration/live#webrtc-extra-configuration
-    webrtc:
-      candidates:
-        - 192.168.1.119:8555
-        - stun:8555
-    streams:
+    go2rtc:
+      # https://docs.frigate.video/configuration/live#webrtc-extra-configuration
+      webrtc:
+        candidates:
+          - 192.168.1.119:8555
+          - stun:8555
+      streams:
+        deck:
+          - rtsp://:@192.168.1.10:554/user=admin_password=tlJwpbo6_channel=1_stream=0.sdp?real_stream
+        street:
+          - rtsp://:@192.168.1.49:554/user=admin_password=tlJwpbo6_channel=1_stream=0.sdp?real_stream
+        # street_sub:
+        #   - rtsp://:@192.168.1.49:554/user=admin_password=tlJwpbo6_channel=1_stream=1.sdp?real_stream
+        under:
+          - rtsp://192.168.1.242:554/stream1
+    cameras:
       deck:
-        - rtsp://:@192.168.1.10:554/user=admin_password=tlJwpbo6_channel=1_stream=0.sdp?real_stream
+        ffmpeg:
+          inputs:
+            - path: rtsp://127.0.0.1:8554/deck
+              input_args: preset-rtsp-restream
+              roles:
+                - record
+                # - path: rtsp://127.0.0.1:8554/street_sub
+                #   input_args: preset-rtsp-restream
+                #   roles:
+                - detect
+          hwaccel_args: preset-nvidia-h264
+        detect:
+          enabled: True # <---- disable detection until you have a working camera feed
+          width: 2592 # <---- update for your camera's resolution
+          height: 1944 # <---- update for your camera's resolution
+        record:
+          enabled: True
+        snapshots:
+          enabled: True
+        zones:
+          entire_deck:
+            coordinates: 0,1944,2592,1944,2592,0,0,0
+            objects:
+              - person
+              - dog
+              - cat
       street:
-        - rtsp://:@192.168.1.49:554/user=admin_password=tlJwpbo6_channel=1_stream=0.sdp?real_stream
-      # street_sub:
-      #   - rtsp://:@192.168.1.49:554/user=admin_password=tlJwpbo6_channel=1_stream=1.sdp?real_stream
+        ffmpeg:
+          inputs:
+            - path: rtsp://127.0.0.1:8554/street
+              input_args: preset-rtsp-restream
+              roles:
+                - record
+                # - path: rtsp://127.0.0.1:8554/street_sub
+                #   input_args: preset-rtsp-restream
+                #   roles:
+                - detect
+          hwaccel_args: preset-nvidia-h264
+        detect:
+          enabled: True
+          width: 2592 # <---- update for your camera's resolution
+          height: 1944 # <---- update for your camera's resolution
+        record:
+          enabled: True
+        snapshots:
+          enabled: True
+        motion:
+          mask:
+            - 0,0,0,769,318,523,358,0
+            - 2592,0,2592,477,2592,591,2459,641,2184,633,2160,503,2105,501,2000,651,1893,621,1813,643,1651,423,1314,501,890,354,690,469,784,663,747,935,676,955,545,624,495,514,426,327,523,95,802,0
+        zones:
+          driveway_entrance:
+            coordinates: 1723,1005,2044,919,1647,747,1205,787
+          driveway:
+            coordinates: 2186,1215,2390,1461,2431,1647,2528,1701,2592,1634,2592,1216,2310,1048,2027,917,1743,993
+        objects:
+          filters:
+            car:
+              mask:
+                # Red Mazda / Blue Ford
+                - 1587,484,2055,572,1774,592,1706,606,1543,615,1414,601,1398,487
+                # Brown and Blue cars, White VW Golf
+                - 2055,572,2172,543,2262,545,2313,512,2399,531,2422,591,2335,607,2306,683,2171,697,2048,657
+                # White Truck
+                - 801,474,823,652,228,731,204,544
       under:
-        - rtsp://192.168.1.242:554/stream1
-  cameras:
-    deck:
-      ffmpeg:
-        inputs:
-          - path: rtsp://127.0.0.1:8554/deck
-            input_args: preset-rtsp-restream
-            roles:
-              - record
-              # - path: rtsp://127.0.0.1:8554/street_sub
-              #   input_args: preset-rtsp-restream
-              #   roles:
-              - detect
-        hwaccel_args: preset-nvidia-h264
-      detect:
-        enabled: True # <---- disable detection until you have a working camera feed
-        width: 2592 # <---- update for your camera's resolution
-        height: 1944 # <---- update for your camera's resolution
-      record:
-        enabled: True
-      snapshots:
-        enabled: True
-      zones:
-        entire_deck:
-          coordinates: 0,1944,2592,1944,2592,0,0,0
-          objects:
-            - person
-            - dog
-            - cat
-    street:
-      ffmpeg:
-        inputs:
-          - path: rtsp://127.0.0.1:8554/street
-            input_args: preset-rtsp-restream
-            roles:
-              - record
-              # - path: rtsp://127.0.0.1:8554/street_sub
-              #   input_args: preset-rtsp-restream
-              #   roles:
-              - detect
-        hwaccel_args: preset-nvidia-h264
-      detect:
-        enabled: True
-        width: 2592 # <---- update for your camera's resolution
-        height: 1944 # <---- update for your camera's resolution
-      record:
-        enabled: True
-      snapshots:
-        enabled: True
-      motion:
-        mask:
-          - 0,0,0,769,318,523,358,0
-          - 2592,0,2592,477,2592,591,2459,641,2184,633,2160,503,2105,501,2000,651,1893,621,1813,643,1651,423,1314,501,890,354,690,469,784,663,747,935,676,955,545,624,495,514,426,327,523,95,802,0
-      zones:
-        driveway_entrance:
-          coordinates: 1723,1005,2044,919,1647,747,1205,787
-        driveway:
-          coordinates: 2186,1215,2390,1461,2431,1647,2528,1701,2592,1634,2592,1216,2310,1048,2027,917,1743,993
-      objects:
-        filters:
-          car:
-            mask:
-              # Red Mazda / Blue Ford
-              - 1587,484,2055,572,1774,592,1706,606,1543,615,1414,601,1398,487
-              # Brown and Blue cars, White VW Golf
-              - 2055,572,2172,543,2262,545,2313,512,2399,531,2422,591,2335,607,2306,683,2171,697,2048,657
-              # White Truck
-              - 801,474,823,652,228,731,204,544
-    under:
-      ffmpeg:
-        inputs:
-          - path: rtsp://127.0.0.1:8554/under
-            input_args: preset-rtsp-restream
-            roles:
-              - record
-              - detect
-        hwaccel_args: preset-nvidia-h264
-      detect:
-        enabled: True
-        width: 2304
-        height: 1536
-      record:
-        enabled: True
-      snapshots:
-        enabled: True
-      motion:
-        mask:
-          - 0,173,656,175,663,0,0,0
+        ffmpeg:
+          inputs:
+            - path: rtsp://127.0.0.1:8554/under
+              input_args: preset-rtsp-restream
+              roles:
+                - record
+                - detect
+          hwaccel_args: preset-nvidia-h264
+        detect:
+          enabled: True
+          width: 2304
+          height: 1536
+        record:
+          enabled: True
+        snapshots:
+          enabled: True
+        motion:
+          mask:
+            - 0,173,656,175,663,0,0,0
