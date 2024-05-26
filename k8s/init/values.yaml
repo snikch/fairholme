@@ -1,6 +1,6 @@
 ghcrToken: im-replaced-via-helm-thanks
-argo-cd:
-  namespaceOverride: argo-cd
+argocd:
+  namespaceOverride: argocd
   global:
     imagePullSecrets:
       - name: ghcr-pull-secret

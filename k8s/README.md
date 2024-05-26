@@ -6,23 +6,23 @@ Initialises ArgoCD.
 
 ```sh
 op run --env-file="./.env" -- \
-    helm install -n argo-cd \
+    helm install -n argocd \
         --create-namespace \
         --set="ghcrToken=$GHCR_TOKEN \
-        argo-cd ./init
+        argocd ./init
 ```
 
 Update via.
 
 ```sh
 op run --env-file="./.env" -- \
-    helm upgrade -n argo-cd --create-namespace \
+    helm upgrade -n argocd --create-namespace \
         --set="ghcrToken=$GHCR_TOKEN" \
-        argo-cd ./init
+        argocd ./init
 ```
 
 Remove via.
 
 ```sh
-op run --env-file="./.env" -- helm uninstall -n argo-cd argo-cd
+op run --env-file="./.env" -- helm uninstall -n argocd argocd
 ```
