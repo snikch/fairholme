@@ -63,7 +63,6 @@ frigate:
                 #   input_args: preset-rtsp-restream
                 #   roles:
                 - detect
-          hwaccel_args: preset-nvidia-h264
         detect:
           enabled: True # <---- disable detection until you have a working camera feed
           width: 2592 # <---- update for your camera's resolution
@@ -90,7 +89,6 @@ frigate:
                 #   input_args: preset-rtsp-restream
                 #   roles:
                 - detect
-          hwaccel_args: preset-nvidia-h264
         detect:
           enabled: True
           width: 2592 # <---- update for your camera's resolution
@@ -126,7 +124,6 @@ frigate:
               roles:
                 - record
                 - detect
-          hwaccel_args: preset-nvidia-h264
         detect:
           enabled: True
           width: 2304
