@@ -5,13 +5,15 @@ frigate:
       enabled: True
       mode: continuous
 
-    database:
-      path: /config/frigate.db
-
-    # detectors:
-    # coral:
-    #   type: edgetpu
-    #   device: pci
+    detectors:
+      ov:
+        type: openvino
+        device: AUTO
+        model:
+          path: /openvino-model/ssdlite_mobilenet_v2.xml
+      # coral:
+      #   type: edgetpu
+      #   device: pci
 
     mqtt:
       enabled: False
